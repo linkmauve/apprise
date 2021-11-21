@@ -168,7 +168,7 @@ def test_sleekxmpp_plugin(tmpdir):
         assert isinstance(obj, apprise.plugins.NotifyXMPP) is True
 
         # Check that it found our mocked environments
-        assert obj._enabled is True
+        assert obj.enabled is True
 
         with mock.patch('sleekxmpp.ClientXMPP') as mock_stream:
             client_stream = mock.Mock()
@@ -194,7 +194,7 @@ def test_sleekxmpp_plugin(tmpdir):
         assert isinstance(obj, apprise.plugins.NotifyXMPP) is True
 
         # Check that it found our mocked environments
-        assert obj._enabled is True
+        assert obj.enabled is True
 
         with mock.patch('sleekxmpp.ClientXMPP') as mock_stream:
             client_stream = mock.Mock()
@@ -250,7 +250,7 @@ def test_sleekxmpp_plugin(tmpdir):
         assert isinstance(obj, apprise.plugins.NotifyXMPP) is True
 
         # Check that it found our mocked environments
-        assert obj._enabled is True
+        assert obj.enabled is True
 
         # Test url() call
         assert isinstance(obj.url(), six.string_types) is True
@@ -286,8 +286,8 @@ def test_sleekxmpp_plugin(tmpdir):
                 title='title', body='body',
                 notify_type=apprise.NotifyType.INFO) is False
 
-    # Toggle our _enabled flag
-    obj._enabled = False
+    # Toggle our enabled flag
+    obj.enabled = False
 
     with mock.patch('sleekxmpp.ClientXMPP') as mock_client:
         # Allow a connection to succeed
@@ -299,7 +299,7 @@ def test_sleekxmpp_plugin(tmpdir):
             notify_type=apprise.NotifyType.INFO) is False
 
     # Toggle it back so it doesn't disrupt other testing
-    obj._enabled = True
+    obj.enabled = True
 
     # create an empty file for now
     ca_cert = tmpdir.mkdir("apprise_sleekxmpp_test").join('ca_cert')
@@ -526,7 +526,7 @@ def test_slixmpp_plugin(tmpdir):
         assert isinstance(obj, apprise.plugins.NotifyXMPP) is True
 
         # Check that it found our mocked environments
-        assert obj._enabled is True
+        assert obj.enabled is True
 
         with mock.patch('slixmpp.ClientXMPP') as mock_stream:
             client_stream = mock.Mock()
@@ -552,7 +552,7 @@ def test_slixmpp_plugin(tmpdir):
         assert isinstance(obj, apprise.plugins.NotifyXMPP) is True
 
         # Check that it found our mocked environments
-        assert obj._enabled is True
+        assert obj.enabled is True
 
         with mock.patch('slixmpp.ClientXMPP') as mock_stream:
             client_stream = mock.Mock()
@@ -608,7 +608,7 @@ def test_slixmpp_plugin(tmpdir):
         assert isinstance(obj, apprise.plugins.NotifyXMPP) is True
 
         # Check that it found our mocked environments
-        assert obj._enabled is True
+        assert obj.enabled is True
 
         # Test url() call
         assert isinstance(obj.url(), six.string_types) is True
@@ -644,8 +644,8 @@ def test_slixmpp_plugin(tmpdir):
                 title='title', body='body',
                 notify_type=apprise.NotifyType.INFO) is False
 
-    # Toggle our _enabled flag
-    obj._enabled = False
+    # Toggle our enabled flag
+    obj.enabled = False
 
     with mock.patch('slixmpp.ClientXMPP') as mock_client:
         # Allow a connection to succeed
@@ -657,7 +657,7 @@ def test_slixmpp_plugin(tmpdir):
             notify_type=apprise.NotifyType.INFO) is False
 
     # Toggle it back so it doesn't disrupt other testing
-    obj._enabled = True
+    obj.enabled = True
 
     # create an empty file for now
     ca_cert = tmpdir.mkdir("apprise_slixmpp_test").join('ca_cert')

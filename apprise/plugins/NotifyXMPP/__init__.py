@@ -41,9 +41,22 @@ class NotifyXMPP(NotifyBase):
     """
     A wrapper for XMPP Notifications
     """
+    # Set our global enabled flag
+    enabled = SleekXmppAdapter._enabled or SliXmppAdapter._enabled
+
+    requirements = {
+        # Define our required packaging in order to work
+        'packages_required': [
+            "sleekxmpp; python_version < '3.7'",
+            "slixmpp; python_version >= '3.7'",
+        ]
+    }
 
     # The default descriptive name associated with the Notification
     service_name = 'XMPP'
+
+    # The services URL
+    service_url = 'https://xmpp.org/'
 
     # The default protocol
     protocol = 'xmpp'
@@ -66,15 +79,7 @@ class NotifyXMPP(NotifyBase):
     # XMPP does not support a title
     title_maxlen = 0
 
-    # This entry is a bit hacky, but it allows us to unit-test this library
-    # in an environment that simply doesn't have the sleekxmpp package
-    # available to us.
-    #
-    # If anyone is seeing this had knows a better way of testing this
-    # outside of what is defined in test/test_xmpp_plugin.py, please
-    # let me know! :)
-    _enabled = SleekXmppAdapter._enabled or SliXmppAdapter._enabled
-    _adapter = SliXmppAdapter if SliXmppAdapter._enabled else SleekXmppAdapter
+    adapter = SliXmppAdapter if SliXmppAdapter._enabled else SleekXmppAdapter
 
     # Define object templates
     templates = (
@@ -225,12 +230,6 @@ class NotifyXMPP(NotifyBase):
         Perform XMPP Notification
         """
 
-        if not self._enabled:
-            self.logger.warning(
-                'XMPP Notifications are not supported by this system '
-                '- install sleekxmpp or slixmpp.')
-            return False
-
         # Detect our JID if it isn't otherwise specified
         jid = self.jid
         password = self.password
@@ -254,7 +253,7 @@ class NotifyXMPP(NotifyBase):
 
         try:
             # Communicate with XMPP.
-            xmpp_adapter = self._adapter(
+            xmpp_adapter = self.adapter(
                 host=self.host, port=port, secure=self.secure,
                 verify_certificate=self.verify_certificate, xep=self.xep,
                 jid=jid, password=password, body=body, targets=self.targets,
